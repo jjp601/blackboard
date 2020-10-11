@@ -1,44 +1,44 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import ContactItem from './ContactItem';
+import CourseItem from './CourseItem';
 import Spinner from '../layout/Spinner';
-import ContactContext from '../../context/contact/contactContext';
+import CourseContext from '../../context/course/courseContext';
 
-const Contacts = () => {
-  const contactContext = useContext(ContactContext);
+const Courses = () => {
+  const courseContext = useContext(CourseContext);
 
-  const { contacts, filtered, getContacts, loading } = contactContext;
+  const { courses, filtered, getCourses, loading } = courseContext;
 
   useEffect(() => {
-    getContacts();
+    getCourses();
     // eslint-disable-next-line
   }, []);
 
-  if (contacts !== null && contacts.length === 0 && !loading) {
-    return <h4>Please add a contact</h4>;
+  if (courses !== null && courses.length === 0 && !loading) {
+    return <h4>Please add a course</h4>;
   }
 
   return (
     <Fragment>
-      {contacts !== null && !loading ? (
+      {courses !== null && !loading ? (
         <TransitionGroup>
           {filtered !== null
-            ? filtered.map(contact => (
+            ? filtered.map(course => (
                 <CSSTransition
-                  key={contact._id}
+                  key={course._id}
                   timeout={500}
                   classNames='item'
                 >
-                  <ContactItem contact={contact} />
+                  <CourseItem course={course} />
                 </CSSTransition>
               ))
-            : contacts.map(contact => (
+            : courses.map(course => (
                 <CSSTransition
-                  key={contact._id}
+                  key={course._id}
                   timeout={500}
                   classNames='item'
                 >
-                  <ContactItem contact={contact} />
+                  <CourseItem course={course} />
                 </CSSTransition>
               ))}
         </TransitionGroup>
@@ -49,4 +49,4 @@ const Contacts = () => {
   );
 };
 
-export default Contacts;
+export default Courses;

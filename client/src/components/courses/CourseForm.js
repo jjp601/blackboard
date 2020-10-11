@@ -1,42 +1,40 @@
 import React, { useState, useContext, useEffect } from 'react';
-import ContactContext from '../../context/contact/contactContext';
+import CourseContext from '../../context/course/courseContext';
 
-const ContactForm = () => {
-  const contactContext = useContext(ContactContext);
+const CourseForm = () => {
+  const courseContext = useContext(CourseContext);
 
-  const { addContact, updateContact, clearCurrent, current } = contactContext;
+  const { addCourse, updateCourse, clearCurrent, current } = courseContext;
 
   useEffect(() => {
     if (current !== null) {
-      setContact(current);
+      setCourse(current);
     } else {
-      setContact({
+      setCourse({
         name: '',
         email: '',
-        phone: '',
-        type: 'personal'
+        phone: ''
       });
     }
-  }, [contactContext, current]);
+  }, [courseContext, current]);
 
-  const [contact, setContact] = useState({
+  const [course, setCourse] = useState({
     name: '',
     email: '',
-    phone: '',
-    type: 'personal'
+    phone: ''
   });
 
-  const { name, email, phone, type } = contact;
+  const { name, email, phone } = course;
 
   const onChange = e =>
-    setContact({ ...contact, [e.target.name]: e.target.value });
+    setCourse({ ...course, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
     e.preventDefault();
     if (current === null) {
-      addContact(contact);
+      addCourse(course);
     } else {
-      updateContact(contact);
+      updateCourse(course);
     }
     clearAll();
   };
@@ -48,7 +46,7 @@ const ContactForm = () => {
   return (
     <form onSubmit={onSubmit}>
       <h2 className='text-primary'>
-        {current ? 'Edit Contact' : 'Add Contact'}
+        {current ? 'Edit Course' : 'Add Course'}
       </h2>
       <input
         type='text'
@@ -71,27 +69,10 @@ const ContactForm = () => {
         value={phone}
         onChange={onChange}
       />
-      <h5>Contact Type</h5>
-      <input
-        type='radio'
-        name='type'
-        value='personal'
-        checked={type === 'personal'}
-        onChange={onChange}
-      />{' '}
-      Personal{' '}
-      <input
-        type='radio'
-        name='type'
-        value='professional'
-        checked={type === 'professional'}
-        onChange={onChange}
-      />{' '}
-      Professional
       <div>
         <input
           type='submit'
-          value={current ? 'Update Contact' : 'Add Contact'}
+          value={current ? 'Update Course' : 'Add Course'}
           className='btn btn-primary btn-block'
         />
       </div>
@@ -106,4 +87,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;
+export default CourseForm;

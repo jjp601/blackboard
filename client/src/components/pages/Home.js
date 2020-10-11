@@ -1,17 +1,17 @@
 import React from 'react';
-import Contacts from '../contacts/Contacts';
-import ContactForm from '../contacts/ContactForm';
-import ContactFilter from '../contacts/ContactFilter';
+import Courses from '../courses/Courses';
+import CourseForm from '../courses/CourseForm';
+import CourseFilter from '../courses/CourseFilter';
 
 const Home = () => {
   return (
     <div className='grid-2'>
       <div>
-        <ContactForm />
+        <CourseForm />
       </div>
       <div>
-        <ContactFilter />
-        <Contacts />
+        <CourseFilter />
+        <Courses />
       </div>
     </div>
   );

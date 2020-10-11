@@ -4,25 +4,25 @@ const auth = require('../middleware/auth');
 const {check, validationResult} = require('express-validator');
 
 const User = require('../models/User');
-const Contact = require('../models/Contact');
+const Course = require('../models/Course');
 
-// @route     GET api/contacts
-// @desc      Get all users contacts
+// @route     GET api/courses
+// @desc      Get all users courses
 // @access    Private
 router.get('/', auth, async (req, res) => {
   try {
-    const contacts = await Contact.find({user: req.user.id}).sort({
+    const courses = await Course.find({user: req.user.id}).sort({
       date: -1,
     });
-    res.json(contacts);
+    res.json(courses);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
 
-// @route     POST api/contacts
-// @desc      Add new contact
+// @route     POST api/courses
+// @desc      Add new course
 // @access    Private
 router.post(
   '/',
@@ -40,20 +40,19 @@ router.post(
       return res.status(400).json({errors: errors.array()});
     }
 
-    const {name, email, phone, type} = req.body;
+    const {name, email, phone} = req.body;
 
     try {
-      const newContact = new Contact({
+      const newCourse = new Course({
         name,
         email,
         phone,
-        type,
         user: req.user.id,
       });
 
-      const contact = await newContact.save();
+      const course = await newCourse.save();
 
-      res.json(contact);
+      res.json(course);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -61,59 +60,58 @@ router.post(
   },
 );
 
-// @route     PUT api/contacts/:id
-// @desc      Update contact
+// @route     PUT api/courses/:id
+// @desc      Update course
 // @access    Private
 router.put('/:id', auth, async (req, res) => {
-  const {name, email, phone, type} = req.body;
+  const {name, email, phone} = req.body;
 
-  // Build contact object
-  const contactFields = {};
-  if (name) contactFields.name = name;
-  if (email) contactFields.email = email;
-  if (phone) contactFields.phone = phone;
-  if (type) contactFields.type = type;
+  // Build course object
+  const courseFields = {};
+  if (name) courseFields.name = name;
+  if (email) courseFields.email = email;
+  if (phone) courseFields.phone = phone;
 
   try {
-    let contact = await Contact.findById(req.params.id);
+    let course = await Course.findById(req.params.id);
 
-    if (!contact) return res.status(404).json({msg: 'Contact not found'});
+    if (!course) return res.status(404).json({msg: 'Course not found'});
 
-    // Make sure user owns contact
-    if (contact.user.toString() !== req.user.id) {
+    // Make sure user owns course
+    if (course.user.toString() !== req.user.id) {
       return res.status(401).json({msg: 'Not authorized'});
     }
 
-    contact = await Contact.findByIdAndUpdate(
+    course = await Course.findByIdAndUpdate(
       req.params.id,
-      {$set: contactFields},
+      {$set: courseFields},
       {new: true},
     );
 
-    res.json(contact);
+    res.json(course);
   } catch (err) {
     console.error(er.message);
     res.status(500).send('Server Error');
   }
 });
 
-// @route     DELETE api/contacts/:id
-// @desc      Delete contact
+// @route     DELETE api/courses/:id
+// @desc      Delete course
 // @access    Private
 router.delete('/:id', auth, async (req, res) => {
   try {
-    let contact = await Contact.findById(req.params.id);
+    let course = await Course.findById(req.params.id);
 
-    if (!contact) return res.status(404).json({msg: 'Contact not found'});
+    if (!course) return res.status(404).json({msg: 'Course not found'});
 
-    // Make sure user owns contact
-    if (contact.user.toString() !== req.user.id) {
+    // Make sure user owns course
+    if (course.user.toString() !== req.user.id) {
       return res.status(401).json({msg: 'Not authorized'});
     }
 
-    await Contact.findByIdAndRemove(req.params.id);
+    await Course.findByIdAndRemove(req.params.id);
 
-    res.json({msg: 'Contact removed'});
+    res.json({msg: 'Course removed'});
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

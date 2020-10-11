@@ -8,7 +8,7 @@ import Login from './components/auth/Login';
 import Alerts from './components/layout/Alerts';
 import PrivateRoute from './components/routing/PrivateRoute';
 
-import ContactState from './context/contact/ContactState';
+import CourseState from './context/course/CourseState';
 import AuthState from './context/auth/AuthState';
 import AlertState from './context/alert/AlertState';
 import './App.css';
@@ -16,7 +16,7 @@ import './App.css';
 const App = () => {
   return (
     <AuthState>
-      <ContactState>
+      <CourseState>
         <AlertState>
           <Router>
             <Fragment>
@@ -33,7 +33,7 @@ const App = () => {
             </Fragment>
           </Router>
         </AlertState>
-      </ContactState>
+      </CourseState>
     </AuthState>
   );
 };
