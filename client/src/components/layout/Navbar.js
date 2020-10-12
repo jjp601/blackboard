@@ -1,5 +1,6 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import logo from './nlogo.png';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContext';
 import CourseContext from '../../context/course/courseContext';
@@ -46,24 +47,29 @@ const Navbar = ({ title, icon }) => {
 
   return (
     <div className='navbar bg-primary'>
-      <h1>
-        <Link to='/'>
-          <i className={icon} /> {title}
-        </Link>
-      </h1>
+      <div className="logo">
+        <h1>
+          <Link to='/'>
+          <img
+            src={logo}
+            style={{ width: '50px' }}
+            alt='unl logo'
+          />
+          </Link>
+        </h1>
+        <h1>{title}</h1>
+      </div>
       <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
     </div>
   );
 };
 
 Navbar.propTypes = {
-  title: PropTypes.string.isRequired,
-  icon: PropTypes.string
+  title: PropTypes.string.isRequired
 };
 
 Navbar.defaultProps = {
-  title: 'Course Keeper',
-  icon: 'fas fa-id-card-alt'
+  title: 'Canvas'
 };
 
 export default Navbar;
